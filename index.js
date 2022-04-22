@@ -18,8 +18,6 @@ const promesaPrueba = route => new Promise((resolve, reject) => {
 
 // Use fsPromises.readFile() method
 // to read the file
-// const promesaPrueba = ms => new Promise(resolve => setTimeout(resolve, ms));
-// wait(0).then(() => console.log(4));
 
 promesaPrueba(process.argv[2])
     .then((result) => {
@@ -28,10 +26,6 @@ promesaPrueba(process.argv[2])
     .catch((error) => {
         console.log("ERROOOOOOOOOOOOR", error);
     });
-
-
-// console.log(process.argv[2]);
-// promesaPrueba(process.argv[2]);
 
 // module.exports = () => {
 //   // ...
