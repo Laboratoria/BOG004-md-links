@@ -24,27 +24,20 @@ const readingFile = route => new Promise((resolve, reject) => {
     //resolve(
     fs.promises.readFile(route, 'utf-8')
         .then(result => {
-            console.log('holi', result)
-                // si la longitud de result es 0, entonces resolve links no encontrados
-                //  si no, resolvemos result
+            // console.log(result)
+            // si la longitud de result es 0, entonces resolve links no encontrados
+            //  si no, resolvemos result
             resolve(result)
+            if (result.length === 0) {
+                console.log('Not Found');
+            }
         })
         .catch(error => {
             console.log('ERROOOR', error);
             reject('readingfile catch')
 
         })
-        //)
 });
-
-// readingFile(process.argv[2])
-//     .then((result) => {
-//         console.log("RESULT" + result);
-//     })
-//     .catch((error) => {
-//         console.log("ERROOOOOOOOOOOOR", error);
-//     });
-
 
 const listLinks = function(links) {
     links.forEach(link => console.log(link));
