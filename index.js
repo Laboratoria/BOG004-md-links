@@ -1,68 +1,34 @@
-const { rejects } = require("assert");
-const fs = require("fs");
-const markdownLinkExtractor = require('markdown-link-extractor');
-const axios = require('axios');
-const { resolve, normalize } = require("path");
+const path = require('path');
+const fs = require('fs');
 
-//Extrayendo URL´s del archivo
-const doHTTPRequest = function checkURL(file, url) {
-    // Make a HTTP request for a given URL
-    axios.get(url)
-        .then(function(response) {
-            console.log(file, url, response.status, response.statusText);
-            return 'axios then'
-        })
-        .catch(function(error) {
-            console.log(file, url, error.code);
-            return 'axios catch'
-
-        })
+//Convirtiendo ruta de relativa a absoluta
+function validatePath(pathUser) {
+    if (path.isAbsolute(pathUser)) {
+        return pathUser
+    } else {
+        const pathAbsolute = path.resolve(pathUser).normalize();
+        return pathAbsolute
+    }
 }
 
-//Leyendo archivo
-const readingFile = route => new Promise((resolve, reject) => {
-    //resolve(
-    fs.promises.readFile(route, 'utf-8')
-        .then(result => {
-            // console.log(result)
-            // si la longitud de result es 0, entonces resolve links no encontrados
-            //  si no, resolvemos result
-            resolve(result)
-            if (result.length === 0) {
-                console.log('Not Found');
-            }
-        })
-        .catch(error => {
-            console.log('ERROOOR', error);
-            reject('readingfile catch')
-
-        })
-});
-
-const listLinks = function(links) {
-    links.forEach(link => console.log(link));
-}
-
-readingFile(process.argv[2])
-    .then((result) => {
-        const { links } = markdownLinkExtractor(result);
-
-        switch (process.argv[3]) {
-            case '--validate':
-                links.forEach(link => doHTTPRequest(process.argv[2], link));
-                break;
-            default:
-                listLinks(links);
-                break;
+//Función de recursividad para validar si la ruta que ingreso el usuario es directorio o archivo y si es md
+function doFilesRequest(pathUser) {
+    let filesPath = [];
+    if (fs.statSync(pathUser).isFile() && path.extname(pathUser) === '.md') {
+        filesPath.push(pathUser);
+    } else {
+        if (fs.statSync(pathUser).isDirectory()) {
+            const directory = pathUser;
+            let contentDirectory = fs.readdirSync(directory)
+            contentDirectory.forEach(elem => {
+                doFilesRequest(pathUser + '\\' + elem).forEach(elem => {
+                        filesPath.push(elem);
+                    })
+                    //Aquí pasa al primer if donde se pregunta si es .md o no
+            })
         }
-    })
-    .catch((error) => {
-        console.log("ERROOOOOOOOOOOOR", error);
-    });
+    }
+    return filesPath;
+}
 
-// module.exports = () => {
-//   // ...
-// };
-
-
-// node index.js "./files-md/example1.md" --validate
+console.log(doFilesRequest("C:\\Users\\yduqu\\OneDrive\\Escritorio\\Proyectos Laboratoria\\md-links"));
