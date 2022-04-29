@@ -1,15 +1,19 @@
 const path = require('path');
 const fs = require('fs');
+const [, , pathUser] = process.argv;
 
 //Convirtiendo ruta de relativa a absoluta
-function validatePath(pathUser) {
+const validatePath = (pathUser) => {
     if (path.isAbsolute(pathUser)) {
-        return pathUser
+        return pathUser;
     } else {
         const pathAbsolute = path.resolve(pathUser).normalize();
-        return pathAbsolute
+        return pathAbsolute;
     }
-}
+};
+
+let myRoute = validatePath(pathUser);
+
 
 //Función de recursividad para validar si la ruta que ingreso el usuario es directorio o archivo y si es md
 function doFilesRequest(pathUser) {
@@ -31,4 +35,8 @@ function doFilesRequest(pathUser) {
     return filesPath;
 }
 
-console.log(doFilesRequest("C:\\Users\\yduqu\\OneDrive\\Escritorio\\Proyectos Laboratoria\\md-links"));
+console.log(doFilesRequest(myRoute));
+
+// module.exports = () => {
+//   // ...
+// };

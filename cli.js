@@ -60,9 +60,7 @@ readingFile(process.argv[2])
         console.log("ERROOOOOOOOOOOOR", error);
     });
 
-// module.exports = () => {
-//   // ...
-// };
+
 
 
 // node index.js "./files-md/example1.md" --validate
