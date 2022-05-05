@@ -2,7 +2,7 @@ const { rejects } = require("assert");
 const fs = require("fs");
 const markdownLinkExtractor = require('markdown-link-extractor');
 const axios = require('axios');
-const { resolve, normalize } = require("path");
+const { resolve } = require("path");
 
 //Extrayendo URL´s del archivo
 const doHTTPRequest = function checkURL(file, url) {
@@ -39,10 +39,12 @@ const readingFile = route => new Promise((resolve, reject) => {
         })
 });
 
+//Recorriendo link
 const listLinks = function(links) {
     links.forEach(link => console.log(link));
 }
 
+//Opción --validate
 readingFile(process.argv[2])
     .then((result) => {
         const { links } = markdownLinkExtractor(result);
@@ -59,6 +61,8 @@ readingFile(process.argv[2])
     .catch((error) => {
         console.log("ERROOOOOOOOOOOOR", error);
     });
+
+//Opción --stats
 
 
 
