@@ -1,14 +1,13 @@
-// const mdLinks = (args) => {
-//   console.log("llego a md", args);
-
-//   module.exports = { mdLinks };
-// };
-//modulos utilizados de node
-const fs = require("fs");
 const path = require("path");
+const fs = require("fs");
 const https = require("https");
-const process = require("process");
-const [, , route] = process.argv;
+//Contiene una promesa que por medio del HTTPS valida los links
+function validateUrl(url) {
+  return new Promise((resolve, reject) => {
+    https.get(url, res =>  resolve(res))
+      .on('error', e => reject(false));
+  });
+}
 
 //Convierte ruta relativa en absoluta
 function validatePath(pathUser) {
@@ -20,7 +19,7 @@ function validatePath(pathUser) {
   }
 }
 //se guarda el resultado de la funcion validatePath en una variable
-const resultVP = validatePath(route);
+// const resultVP = validatePath(route);
 
 //funcion que recorre los directorios en busca de archivos md y los empuja a un array
 function routePath(pathUser) {
@@ -43,7 +42,7 @@ function routePath(pathUser) {
 }
 
 //Resultado de la funcion recursiva, y le doy como argumento mi ruta absoluta
-const mdFiles = routePath(resultVP);
+// const mdFiles = routePath(resultVP);
 
 
 //promesa para leer archivos en el array
@@ -65,7 +64,7 @@ const readMd = (file) => {
   })
 })
 }
-const getObject = Promise.all(mdFiles.map(readMd)) //recorre los md 
+const getObject = (mdArray) => Promise.all(mdArray.map(readMd)) //recorre los md 
 .then((data) => { 
   const regExp = /!*\[(.+?)\]\((.+?)\)/gi;
   data.forEach(item => {
@@ -94,6 +93,8 @@ return object
 })
 .catch(error => reject(error))
 
-getObject.then(response => {
-  console.log("HOLAAA SOY UN OBJECTO",object)
-})
+// getObject(mdFiles).then(response => {
+//   console.log("HOLAAA SOY UN OBJECTO",response)
+// })
+
+module.exports = {validatePath, routePath, getObject,validateUrl}
