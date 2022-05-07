@@ -1,9 +1,9 @@
 const path = require('path');
 const fs = require('fs');
-const [, , pathUser] = process.argv;
+
 var clc = require('cli-color');
 
-//Función para validar si la ruta existe
+// //Función para validar si la ruta existe
 const existsPath = (pathUser) => fs.existsSync(pathUser);
 
 //Expresiones regulares para la extracción de links
@@ -21,9 +21,8 @@ const validatePath = (pathUser) => {
 
 let myRoute = validatePath(pathUser);
 
-
 //Validando si la ruta que ingreso el usuario es directorio o archivo, y si es .md
-function readingRoute(pathUser) {
+const readingRoute = (pathUser) => {
     let filesPath = [];
     if (fs.statSync(pathUser).isFile() && path.extname(pathUser) === '.md') {
         filesPath.push(pathUser);
@@ -42,9 +41,9 @@ function readingRoute(pathUser) {
     return filesPath;
 }
 
-console.log(readingRoute(myRoute));
+// console.log('MOSTRANDO RUTAS', readingRoute(myRoute));
 
-//myFilesPath es el resultado de mi función recursiva
+//myFilesPath es el resultado de mi función recursiva, trae las rutas
 let myFilesPath = readingRoute(myRoute);
 
 //Función que lee los archivos que estan en un array
@@ -83,7 +82,7 @@ const doLinkRequest = (pathAbsolute) => {
     return arrayLinks;
 };
 
-//Función para info de los links
+//Función para extraer información de los links
 const dataLinks = (links) => {
     const obj = links.map(e => {
         return fetch(e)
@@ -109,8 +108,7 @@ const dataLinks = (links) => {
     return Promise.all(obj)
 }
 
-
-module.exports = () => {
+module.exports = {
     existsPath,
     validatePath,
     myRoute,

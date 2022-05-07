@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const { rejects } = require("assert");
 const fs = require("fs");
 const markdownLinkExtractor = require('markdown-link-extractor');
