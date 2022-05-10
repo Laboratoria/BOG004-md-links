@@ -1,60 +1,44 @@
-//modulos utilizados de node
-const process = require("process");
-const userPath = process.argv[2];
-let validateConsole = process.argv[3];
-
+//Funcion MDLINKS
 const {
   validatePath,
-  routePath,
-  validateUrl,
+  throughDirectory,
   getObject,
+  objectOfStats,
+  createObjectWithvalidateUrl
 } = require("./functions.js");
 
 let response = {
   data: [],
   errors: " ",
 };
-
-function mdLinks(path = " ", options = { validate: false }) {
-  const { validate } = options;
+//funcion para validacion de links
+function mdLinks(path = ' ', options = { validate: false, stats: ' ' }) {
   return new Promise((resolve, reject) => {
-    const resultVP = validatePath(userPath);
-    const mdFiles = routePath(resultVP);
+    const resultValidatePath = validatePath(path); //resultado de la ruta absoluta
+    const mdFiles = throughDirectory(resultValidatePath);
     getObject(mdFiles)
       .then((resolve) => {
         response.data = resolve;
       })
       .then(() => {
-        if (validate === "--validate") {
-          let validateUrlList = response.data.map((objeto) =>
-            validateUrl(objeto.href)
-              .then((res) => {
-                objeto.status = res.statusCode;
-                objeto.ok =
-                  res.statusCode >= 200 && res.statusCode <= 399
-                    ? "ok"
-                    : "fail";
-              })
-              .catch((error) => {
-                objeto.status = error.code;
-                objeto.ok = "fail";
-              })
-          );
-          Promise.all(validateUrlList).then(() => {
-            resolve(response.data);
-          });
+        if (options?.validate === "--validate" || options?.validate === "--v") {
+          createObjectWithvalidateUrl(response.data, options);
+          //signo de ? valida si el objeto existe para que no se rompa el codigo
+        } else if (
+          (options?.validate !== "--validate" || options?.validate !== "--v") &&
+          (options?.stats === "--stats" || options?.stats === "--s")
+        ) {
+          objectOfStats(response.data);
         } else {
           if (!response.errors) {
+            console.log(response.data);
             resolve(response.data);
           } else {
             reject(response.errors);
           }
         }
-      });
+      })
+      .catch((error) => console.log("ERROR", error))
   });
 }
-mdLinks(userPath, { validate: validateConsole })
-  .then((elem) => {
-    console.log(elem);
-  })
-  .catch(console.error);
+module.exports = { mdLinks };

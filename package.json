@@ -23,8 +23,8 @@
   ],
   "author": "Gisbel Contreras",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Gisbelc/BOG004-md-links/issues"
+  "bin": {
+    "mdlinks": "./cli.js"
   },
   "homepage": "https://github.com/Gisbelc/BOG004-md-links#readme"
 }
