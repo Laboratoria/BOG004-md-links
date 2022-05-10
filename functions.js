@@ -1,8 +1,9 @@
 const path = require("path");
 const fs = require("fs");
 const clc = require('cli-color');
-const { url } = require("inspector");
+// const { url } = require("inspector");
 const [, , route] = process.argv;
+
 // const md = ('markdown-it');
 
 // //Valida si la ruta existe
@@ -51,7 +52,7 @@ const getMdFiles = (currentRoute) => {
     return arrayMdFiles;
 };
 
-console.log(getMdFiles(route));
+// console.log(getMdFiles(route));
 
 //Lee archivos .md
 const readMdFiles = (MDfile) => {
@@ -71,41 +72,70 @@ const readMdFiles = (MDfile) => {
     });
 };
 
-readMdFiles(route).then(response => console.log('SE LEYÓ', response)).catch(err => console.error('NO SE LEYÓ')); //Lo que debe hacer cuando la promesa se cumpla o falle
-
+// readMdFiles(route).then(response => console.log('SE LEYÓ', response)).catch(err => console.error('NO SE LEYÓ')); //Lo que debe hacer cuando la promesa se cumpla o falle
 
 //Extrae links de archivo .md
 const getLinksMdFiles = (routeMDfile) => new Promise((resolve, reject) => {
-    const regExp = /\[([\w\s\d.()]+)\]\(((?:\/|https?:\/\/)[\w\d./?=#&_%~,.:-]+)\)/mg;
-    const regxUrl = /\(((?:\/|https?:\/\/)[\w\d./?=#&_%~,.:-]+)\)/mg;
-    const regxText = /\[[\w\s\d.()]+\]/;
+    const regExp = /\[(.*?)\]\(.*?\)/mg;
+    const regUrl = /\(.*?\)/mg;
+    const regText = /\[(.*?)\]/mg;
+    readMdFiles(routeMDfile)
+        .then((fileContent) => {
 
-    readMdFiles(routeMDfile).then((contentFile) => {
-            const arrayLinks = contentFile.match(regExp);
+            const arrayLinks = fileContent.fileContent.match(regExp);
 
             if (arrayLinks === null) {
                 resolve([])
             }
 
-            const linkConverted = arrayLinks.map((objLinks) => {
-                const objhref = objLinks.match(regxUrl).join().slice(1, -1);
-                const objtext = objLinks.match(regxText).join().slice(1, -1);
+            const arrayLinksConvert = arrayLinks.map((objLinks) => {
+
+                const objhref = objLinks.match(regUrl).join().slice(1, -1);
+                const objtext = objLinks.match(regText).join().slice(1, -1);
                 return {
-                    href: objhref,
-                    text: objtext.substring(0, 50),
-                    fileName: path.basename(routeMDfile),
+                    href: objhref, //URL encontrada
+                    text: objtext.substring(0, 50), //Texto que aparecía dentro del link (<a>).
+                    fileName: path.basename(routeMDfile), //Ruta del archivo donde se encontró el link.
                 };
             })
-            resolve(linkConverted);
+            resolve(arrayLinksConvert);
         })
         .catch((err) => {
-            const errorMsj = ("Links could not be obtained");
-            reject(errorMsj)
+            reject(err)
         });
 
 });
 
-getLinksMdFiles(route).then(response => console.log('PASÓ', response)).catch(err => console.error('NO PASÓ')); //Lo que debe hacer cuando la promesa se cumpla o falle
+getLinksMdFiles(route).then(arrayLinksConvert => console.log('PASÓ', arrayLinksConvert)).catch(err => console.error('NO PASÓ', err)); //Lo que debe hacer cuando la promesa se cumpla o falle
+
+
+// const validateLinks = (arrayLinksConvert) => {
+//     return Promise.all(arrayLinksConvert.map((link) => {
+//         return fetch(link, href)
+//             .then(result => {
+//                 const statusArr = result.status >= 200 && result.ststus <= 399 ? 'Ok' : 'Fail';
+//                 return {
+//                     href: link.href,
+//                     text: link.text,
+//                     file: link.file,
+//                     status: result.status,
+//                     message: statusArr,
+//                 }
+//             })
+//             .catch(() => {
+//                 return {
+//                     href: link.href,
+//                     text: link.text,
+//                     file: link.file,
+//                     status: '',
+//                     message: 'Fail',
+//                 }
+//             });
+//     }));
+// };
+
+// validateLinks(arrayLinksConvert).then(arrayLinksConvert => console.log('PASÓ????', arrayLinksConvert)).catch(err => console.error('NO PASÓ!!!!', err)); //Lo que debe hacer cuando la promesa se cumpla o falle
+
 
 
 // const allLinksResult = (MDarray) => new Promise((resolve, reject) => {
@@ -126,28 +156,5 @@ getLinksMdFiles(route).then(response => console.log('PASÓ', response)).catch(er
 
 
 
-// const getLinksMdFiles = (MDarray) => Promise.all(MDarray.map(readMdFiles))
-//     .then((data) => {
-//         data.forEach((elem) => {
-//             const myLinks = [...elem.fileContent.toString().match(regExp)];
-//             myLinks.forEach((url) => {
-//                 urlText.push(url);
-//                 pathText.push(elem.route);
-//             });
-//         });
 
-//         objetResult = urlText.map((linksResult) => {
-//             let index =urlText.indexOf(linksResult);
-//             const arrUrl = linksResult.split('](');
-//             const text = arrUrl[0].slice(1);
-//             const href = arrUrl[1].slice(0, -1);
-
-//             return (
-//                 href: href,
-//                 text: text.substring(0, 50),
-//                 file: pathText[index],
-//             );
-//         });
-//         return objetResult
-//     })
-//     .catch((err) => reject(err));
+//node functions "C:\Users\yduqu\OneDrive\Escritorio\Laboratoria\md-links\files-md\example1.md"

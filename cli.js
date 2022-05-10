@@ -42,7 +42,7 @@ const readingFile = route => new Promise((resolve, reject) => {
 });
 
 //Recorriendo link
-const listLinks = function(links) {
+const listLinks = (links) => {
     links.forEach(link => console.log(link));
 }
 
@@ -69,4 +69,4 @@ readingFile(process.argv[2])
 
 
 
-// node index.js "./files-md/example1.md" --validate
+// node cli "./files-md/example1.md" --validate
