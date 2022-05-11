@@ -5,7 +5,8 @@
 * [1. Características de la libreria](#1-Características-de-la-libreria)
 * [2. Diagrama de Flujo](#2-Diagrama-de-Flujo)
 * [3. Instalación](#3-Instalación)
-* [4. Modo de uso ](#4-Modo-de-uso)
+* [4. Modo de uso](#4-Modo-de-uso)
+* [5. Opciones disponibles](#5-Opciones-disponibles)
 
 ***
 
