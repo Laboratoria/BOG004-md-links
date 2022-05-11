@@ -17,7 +17,7 @@
  estadísticas de estos en archivos de extensión md.
 
 ## 2. Diagrama de Flujo
-!(Diagrama de Flujo.png)
+!(https://github.com/Gisbelc/BOG004-md-links/blob/work/Diagrama%20de%20Flujo.png)
 
 Diseño del diagrama de flujo, para llevar un orden en la ejecución del proyecto.
 
