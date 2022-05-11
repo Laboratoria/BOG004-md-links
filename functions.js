@@ -2,6 +2,7 @@ const path = require("path");
 const fs = require("fs");
 const clc = require('cli-color');
 const { default: axios } = require("axios");
+// const { options } = require("markdown-it/lib/presets/default");
 // const { url } = require("inspector");
 const [, , route] = process.argv;
 
@@ -38,7 +39,7 @@ let arrayMdFiles = [];
 const getMdFiles = (currentRoute) => {
 
     let joinRoute;
-    console.log('FOLDERPATH', folderPath(currentRoute)); //Si es folder true
+    // console.log('FOLDERPATH', folderPath(currentRoute)); //Si es folder true
     if (folderPath(currentRoute)) {
         readFolder(currentRoute).forEach((elem) => {
             joinRoute = path.join(currentRoute, elem);
@@ -110,52 +111,42 @@ const getLinksMdFiles = (routeMDfile) => new Promise((resolve, reject) => {
 
 });
 
-const validateLinks = getLinksMdFiles(route).then(arrayLinksConvert => {
-    return Promise.all(arrayLinksConvert.map((link) => {
-        return axios.get(link.href)
+
+// getLinksMdFiles(route).then(response => console.log('SE LEYÓ', response)).catch(err => console.error('NO SE LEYÓ'));
+
+const objectWhitValidateLinks = getLinksMdFiles(route).then(arrayLinksConvert => {
+    return Promise.all(arrayLinksConvert.map((object) => {
+        return axios.get(object.href)
             .then(result => {
                 const objStatus = result.status >= 200 && result.ststus <= 399 ? 'Ok' : 'Fail';
                 return {
-                    href: link.href,
-                    text: link.text,
-                    file: link.fileName,
+                    href: object.href,
+                    text: object.text,
+                    file: object.fileName,
                     status: result.status,
                     message: 'Ok',
                 }
             })
             .catch((error) => {
                 return {
-                    href: link.href,
-                    text: link.text,
-                    file: link.fileName,
+                    href: object.href,
+                    text: object.text,
+                    file: object.fileName,
                     status: '',
                     message: 'Fail',
                 }
             });
     }));
-    // console.log('PASÓ', arrayLinksConvert) //Lo que debe hacer cuando la promesa se cumpla o falle
+
 });
 
-validateLinks.then(response => console.log('RESPONDE', response));
+
+// objectWhitValidateLinks.then(response => console.log('RESPONDE', response));
 
 
-// const allLinksResult = (MDarray) => new Promise((resolve, reject) => {
-//     const linksObjArr = [];
-//     MDarray.map((file) => getLinksMdFiles(file)
-//         .then((linksArrayResult) => {
-//             linksObjArr.push(linksArrayResult); // [[{l1},{l2}...],[{l1}...],[{l1}...]] arr con arr de obj
-//             if (linksObjArr.length === MDarray.length) {
-//                 resolve(linksObjArr.flat());
-//             }
-//         })
-//         .catch((error) => {
-//             reject(error);
-//         }));
-// });
-
-// allLinksResult(route).then(response => console.log('PASO', response)).catch(error => console.error('NO PASÓ')); //Lo que debe hacer cuando la promesa se cumpla o falle
-
-
-
-
-//node functions "C:\Users\yduqu\OneDrive\Escritorio\Laboratoria\md-links\files-md\example1.md"
+module.exports = {
+    getMdFiles,
+    readMdFiles,
+    getLinksMdFiles,
+    objectWhitValidateLinks
+}
