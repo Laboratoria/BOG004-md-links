@@ -9,10 +9,12 @@ const {
 
 let response = {
   data: [],
-  errors: " ",
+  errors: '',
 };
 //funcion para validacion de links
-function mdLinks(path = ' ', options = { validate: false, stats: ' ' }) {
+function mdLinks(path = ' ', options = { validate: false
+  
+  , stats: ' ' }) { //validate: false (para que nos retorne el objeto (href,text,file))
   return new Promise((resolve, reject) => {
     const resultValidatePath = validatePath(path); //resultado de la ruta absoluta
     const mdFiles = throughDirectory(resultValidatePath);
@@ -38,7 +40,6 @@ function mdLinks(path = ' ', options = { validate: false, stats: ' ' }) {
           }
         }
       })
-      .catch((error) => console.log("ERROR", error))
   });
 }
 module.exports = { mdLinks };
