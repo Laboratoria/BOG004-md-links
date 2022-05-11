@@ -17,6 +17,7 @@
  estadísticas de estos en archivos de extensión md.
 
 ## 2. Diagrama de Flujo
+![Diagrama](C:\Users\gisbe\OneDrive\Escritorio\PROYECTOS LAB\BOG004-md-links\Diagrama de Flujo.png)
 
 Diseño del diagrama de flujo, para llevar un orden en la ejecución del proyecto.
 
