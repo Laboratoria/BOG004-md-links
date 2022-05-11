@@ -17,7 +17,7 @@
  estadísticas de estos en archivos de extensión md.
 
 ## 2. Diagrama de Flujo
-![Diagrama](Diagrama de Flujo.png)
+!(Diagrama de Flujo.png)
 
 Diseño del diagrama de flujo, para llevar un orden en la ejecución del proyecto.
 
