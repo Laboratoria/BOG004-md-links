@@ -5,10 +5,14 @@ const https = require("https");
 
 //Convierte ruta relativa en absoluta
 function validatePath(pathUser) {
-  if (path.isAbsolute(pathUser)) { //isAbsolute() valida si la rutaingresada es absoluta
-    return pathUser;
-  } else {
-    const pathAbsolute = path.resolve(pathUser).normalize(); //mediante el metodo resolve se convierte absoluta y normalize la estandariza 
+  if (path.isAbsolute(pathUser)) {
+    //isAbsolute() valida si la rutaingresada es absoluta
+    return pathUser
+   } if(!fs.existsSync(pathUser)){
+    console.log("❌ Ruta ingresada no existe");
+     process.exit();
+   }else {
+    const pathAbsolute = path.resolve(pathUser).normalize(); //mediante el metodo resolve se convierte absoluta y normalize la estandariza
     return pathAbsolute;
   }
 }
@@ -58,14 +62,14 @@ const getObject = (mdArray) =>
     .then((data) => {
       const regExp = /!*\[(.+?)\]\((.+?)\)/gi;
       data.forEach((item) => {
-        const linkFind = item.fileContent.toString().match(regExp) //compara los archivos que estamos buscando con los simbolos en la expresion
-        if(linkFind){
-        linkFind.forEach((elem) => {
-          links.push(elem);
-          paths.push(item.route)
-        })
-      }
-      })
+        const linkFind = item.fileContent.toString().match(regExp); //compara los archivos que estamos buscando con los simbolos en la expresion
+        if (linkFind) {
+          linkFind.forEach((elem) => {
+            links.push(elem);
+            paths.push(item.route);
+          });
+        }
+      });
       //se construye el objecto
       object = links.map((linkAll) => {
         let index = links.indexOf(linkAll); //se obtiene la posicion de los link mediante el indexOf()
@@ -81,7 +85,7 @@ const getObject = (mdArray) =>
       return object;
     })
     .catch((error) =>
-      console.log("La ruta del archivo o carpeta es obligatorio", error)
+      console.log("❌La ruta del archivo o carpeta es obligatorio", error)
     );
 
 //Contiene una promesa que por medio del HTTPS valida los links
@@ -120,7 +124,7 @@ function createObjectWithvalidateUrl(data, options) {
         console.log("Links desde promesa: ", data);
       }
     })
-    .catch((error) => console.log("ERROR", error));
+    .catch((error) => console.log("❌ERROR", error));
 }
 function objectOfStats(data) {
   const contentDataHref = getTotalLinks(data);
@@ -146,4 +150,3 @@ module.exports = {
   objectOfStats,
   createObjectWithvalidateUrl,
 };
-
