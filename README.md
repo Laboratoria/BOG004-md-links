@@ -1,5 +1,8 @@
 # Markdown Links 
 
+<img width="1537" alt="MDLINKS" src="https://user-images.githubusercontent.com/97894844/167900031-3ee042f2-1202-4bf5-befb-acd240171bfd.png">
+
+
 ## Índice 📋
 
 * [1. Características de la libreria](#1-Características-de-la-libreria)
@@ -17,6 +20,7 @@
  estadísticas de estos en archivos de extensión md.
 
 ## 2. Diagrama de Flujo
+!(https://github.com/Gisbelc/BOG004-md-links/blob/work/Diagrama%20de%20Flujo.png)
 
 Diseño del diagrama de flujo, para llevar un orden en la ejecución del proyecto.
 
@@ -97,7 +101,3 @@ Broken: 1
 ## 6. Autor ♥
 `Gisbel Contreras`
 * [Git Hub](https://github.com/Gisbelc/BOG004-md-links)
-
-
-
-
