@@ -92,5 +92,5 @@ Unique: 3
 Broken: 1
 ```
 ## 6. Autor 
-* `Gisbel Contreras`
+`Gisbel Contreras`
 * [Git Hub](https://github.com/Gisbelc/BOG004-md-links)
