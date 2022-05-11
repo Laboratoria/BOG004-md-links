@@ -14,7 +14,7 @@
 
 ## 2. Diagrama de Flujo
 Diseño del diagrama de flujo, para llevar un orden en la ejecución del proyecto.
-(Diagrama de Flujo.png)
+(https://github.com/Gisbelc/BOG004-md-links/blob/work/Diagrama%20de%20Flujo.png)
 ## 3. Instalación
 
 
