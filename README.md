@@ -7,6 +7,7 @@
 * [3. Instalación](#3-Instalación)
 * [4. Modo de uso](#4-Modo-de-uso)
 * [5. Opciones disponibles](#5-Opciones-disponibles)
+* [6. Autor](#6-Autor)
 
 ***
 
@@ -90,3 +91,6 @@ Total: 3
 Unique: 3
 Broken: 1
 ```
+## 6. Autor 
+* `Gisbel Contreras`
+* [Git Hub](https://github.com/Gisbelc/BOG004-md-links)
