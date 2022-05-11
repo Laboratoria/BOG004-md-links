@@ -1,7 +1,37 @@
 {
-  "name": "md-links",
+  "name": "md-links-gis",
   "version": "0.1.0",
   "engines": {
     "node": ">=14.x"
+  },
+  "description": "ENCUENTRA TUS ARCHIVOS md.",
+  "main": "./index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gisbelc/BOG004-md-links.git"
+  },
+  "keywords": [
+    "\"javascript\"",
+    "\"Node\"",
+    "\"markdown\""
+  ],
+  "author": "Gisbel Contreras",
+  "license": "ISC",
+  "bin": {
+    "mdlinks": "cli.js"
+  },
+  "bugs": {
+    "url": "https://github.com/Gisbelc/BOG004-md-links/issues"
+  },
+  "homepage": "https://github.com/Gisbelc/BOG004-md-links#readme",
+  "devDependencies": {
+    "eslint": "^8.15.0"
   }
+
 }
