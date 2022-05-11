@@ -14,7 +14,7 @@
 
 ## 2. Diagrama de Flujo
 Diseño del diagrama de flujo, para llevar un orden en la ejecución del proyecto.
-!(diagrama de flujo.png)
+!(Diagrama de Flujo.png)
 ## 3. Instalación
 
 
