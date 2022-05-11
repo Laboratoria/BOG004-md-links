@@ -1,6 +1,7 @@
 const path = require("path");
 const fs = require("fs");
 const clc = require('cli-color');
+const { default: axios } = require("axios");
 // const { url } = require("inspector");
 const [, , route] = process.argv;
 
@@ -79,6 +80,8 @@ const getLinksMdFiles = (routeMDfile) => new Promise((resolve, reject) => {
     const regExp = /\[(.*?)\]\(.*?\)/mg;
     const regUrl = /\(.*?\)/mg;
     const regText = /\[(.*?)\]/mg;
+    let arrayLinksConvert = [];
+
     readMdFiles(routeMDfile)
         .then((fileContent) => {
 
@@ -88,17 +91,18 @@ const getLinksMdFiles = (routeMDfile) => new Promise((resolve, reject) => {
                 resolve([])
             }
 
-            const arrayLinksConvert = arrayLinks.map((objLinks) => {
+            arrayLinks.forEach((objLinks) => {
 
                 const objhref = objLinks.match(regUrl).join().slice(1, -1);
                 const objtext = objLinks.match(regText).join().slice(1, -1);
-                return {
+                arrayLinksConvert.push({
                     href: objhref, //URL encontrada
                     text: objtext.substring(0, 50), //Texto que aparecía dentro del link (<a>).
                     fileName: path.basename(routeMDfile), //Ruta del archivo donde se encontró el link.
-                };
+                })
             })
             resolve(arrayLinksConvert);
+            return arrayLinksConvert;
         })
         .catch((err) => {
             reject(err)
@@ -106,36 +110,33 @@ const getLinksMdFiles = (routeMDfile) => new Promise((resolve, reject) => {
 
 });
 
-getLinksMdFiles(route).then(arrayLinksConvert => console.log('PASÓ', arrayLinksConvert)).catch(err => console.error('NO PASÓ', err)); //Lo que debe hacer cuando la promesa se cumpla o falle
+const validateLinks = getLinksMdFiles(route).then(arrayLinksConvert => {
+    return Promise.all(arrayLinksConvert.map((link) => {
+        return axios.get(link.href)
+            .then(result => {
+                const objStatus = result.status >= 200 && result.ststus <= 399 ? 'Ok' : 'Fail';
+                return {
+                    href: link.href,
+                    text: link.text,
+                    file: link.fileName,
+                    status: result.status,
+                    message: 'Ok',
+                }
+            })
+            .catch((error) => {
+                return {
+                    href: link.href,
+                    text: link.text,
+                    file: link.fileName,
+                    status: '',
+                    message: 'Fail',
+                }
+            });
+    }));
+    // console.log('PASÓ', arrayLinksConvert) //Lo que debe hacer cuando la promesa se cumpla o falle
+});
 
-
-// const validateLinks = (arrayLinksConvert) => {
-//     return Promise.all(arrayLinksConvert.map((link) => {
-//         return fetch(link, href)
-//             .then(result => {
-//                 const statusArr = result.status >= 200 && result.ststus <= 399 ? 'Ok' : 'Fail';
-//                 return {
-//                     href: link.href,
-//                     text: link.text,
-//                     file: link.file,
-//                     status: result.status,
-//                     message: statusArr,
-//                 }
-//             })
-//             .catch(() => {
-//                 return {
-//                     href: link.href,
-//                     text: link.text,
-//                     file: link.file,
-//                     status: '',
-//                     message: 'Fail',
-//                 }
-//             });
-//     }));
-// };
-
-// validateLinks(arrayLinksConvert).then(arrayLinksConvert => console.log('PASÓ????', arrayLinksConvert)).catch(err => console.error('NO PASÓ!!!!', err)); //Lo que debe hacer cuando la promesa se cumpla o falle
-
+validateLinks.then(response => console.log('RESPONDE', response));
 
 
 // const allLinksResult = (MDarray) => new Promise((resolve, reject) => {
