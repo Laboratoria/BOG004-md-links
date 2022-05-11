@@ -16,7 +16,9 @@
 Diseño del diagrama de flujo, para llevar un orden en la ejecución del proyecto.
 (https://github.com/Gisbelc/BOG004-md-links/blob/work/Diagrama%20de%20Flujo.png)
 ## 3. Instalación
+Tu puedes instalar esta libreria ingresando este comando en tu terminal 
 
+`$ npm install md-links-gis`
 
 ### JavaScript
 
