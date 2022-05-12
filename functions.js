@@ -7,11 +7,12 @@ const https = require("https");
 function validatePath(pathUser) {
   if (path.isAbsolute(pathUser)) {
     //isAbsolute() valida si la rutaingresada es absoluta
-    return pathUser
-   } if(!fs.existsSync(pathUser)){
+    return pathUser;
+  }
+  if (!fs.existsSync(pathUser)) {
     console.log("❌ Ruta ingresada no existe");
-     process.exit();
-   }else {
+    process.exit();
+  } else {
     const pathAbsolute = path.resolve(pathUser).normalize(); //mediante el metodo resolve se convierte absoluta y normalize la estandariza
     return pathAbsolute;
   }
@@ -33,18 +34,14 @@ function throughDirectory(pathUser) {
         });
       });
     }
-    if(filesPath.length === 0){
-      console.log("No se encontraron archivos md:(")
+    if (filesPath.length === 0) {
+      console.log("No se encontraron archivos md:(");
     }
   }
   return filesPath;
 }
 
 //promesa para leer archivos en el array
-const links = []; //array para guardar los links
-const paths = []; //array que guarda las rutas
-let object = []; //objecto final
-
 const readMd = (file) => {
   return new Promise((resolve, reject) => {
     fs.readFile(file, "utf-8", (error, data) => {
@@ -60,8 +57,12 @@ const readMd = (file) => {
   });
 };
 
-const getObject = (mdArray) =>
-  Promise.all(mdArray.map(readMd)) //recorre los md
+const getObject = (mdArray) => {
+const links = []; //array para guardar los links
+const paths = []; //array que guarda las rutas
+let object = []; //objecto final
+
+return  Promise.all(mdArray.map(readMd)) //recorre los md
     .then((data) => {
       const regExp = /!*\[(.+?)\]\((.+?)\)/gi;
       data.forEach((item) => {
@@ -90,7 +91,7 @@ const getObject = (mdArray) =>
     .catch((error) =>
       console.log("❌La ruta del archivo o carpeta es obligatorio", error)
     );
-
+  }
 //Contiene una promesa que por medio del HTTPS valida los links
 function validateUrl(url) {
   return new Promise((resolve, reject) => {
@@ -111,9 +112,9 @@ function createObjectWithvalidateUrl(data, options) {
         object.ok = "fail";
       })
   );
-  Promise.all(validateUrlList)
+  return Promise.all(validateUrlList)
     .then(() => {
-      if (options.stats === "--stats" || options.stats === "--s") {
+      if (options.stats) {
         const contentDataHref = getTotalLinks(data);
         const filterDataStats = data.filter((object) => object.ok === "fail");
         const unique = getUniqueLinks(data);
@@ -122,11 +123,10 @@ function createObjectWithvalidateUrl(data, options) {
           Unique: unique.length,
           Broken: filterDataStats.length,
         };
-        console.table(result);
-        return result
+        return result;
       } else {
-        console.log("Links desde promesa:", data);
-        return data
+        // console.log("Links desde promesa:", data);
+        return data;
       }
     })
     .catch((error) => console.log("❌ERROR", error));
@@ -138,7 +138,8 @@ function objectOfStats(data) {
     Total: contentDataHref.length,
     Unique: unique.length,
   };
-  console.table(result);
+  // console.table(result);
+  return result
 }
 
 function getUniqueLinks(data) {

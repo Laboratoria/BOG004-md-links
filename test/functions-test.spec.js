@@ -10,8 +10,7 @@ describe("Path", () => {
 });
 
 it("recibe una ruta relativa y la convierte a absoluta", () => {
-  let result =
-    "C:\\Users\\gisbe\\OneDrive\\Escritorio\\PROYECTOS LAB\\BOG004-md-links\\pruebas";
+  let result = "C:\\Users\\gisbe\\OneDrive\\Escritorio\\PROYECTOS LAB\\BOG004-md-links\\pruebas";
   expect(validatePath(pathTest)).toEqual(result);
 });
 
