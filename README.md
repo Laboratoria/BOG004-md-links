@@ -38,6 +38,8 @@ Una vez instalada la libreria, debes ejecutarlo en la terminal
 
 *NOTA: TU RUTA PUEDE SER RELATIVA O ABSOLUTA*
 
+*SI ES ABSOLUTA DEBE ESTAR ENTRE COMILLAS*
+
 ## 5. Opciones disponibles 📓
 
 Si ingresas la ruta sin opciones obtendras como resultado lo siguiente: 

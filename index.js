@@ -12,9 +12,7 @@ let response = {
   errors: '',
 };
 //funcion para validacion de links
-function mdLinks(path = ' ', options = { validate: false
-  
-  , stats: ' ' }) { //validate: false (para que nos retorne el objeto (href,text,file))
+function mdLinks(path = ' ', options = { validate: false, stats: ' ' }) { //validate: false (para que nos retorne el objeto (href,text,file))
   return new Promise((resolve, reject) => {
     const resultValidatePath = validatePath(path); //resultado de la ruta absoluta
     const mdFiles = throughDirectory(resultValidatePath);

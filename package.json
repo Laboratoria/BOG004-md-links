@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/Gisbelc/BOG004-md-links#readme",
   "devDependencies": {
-    "eslint": "^8.15.0"
+    "eslint": "^8.15.0",
+    "jest": "^28.1.0"
   }
-
 }

@@ -33,6 +33,9 @@ function throughDirectory(pathUser) {
         });
       });
     }
+    if(filesPath.length === 0){
+      console.log("No se encontraron archivos md:(")
+    }
   }
   return filesPath;
 }
@@ -62,7 +65,7 @@ const getObject = (mdArray) =>
     .then((data) => {
       const regExp = /!*\[(.+?)\]\((.+?)\)/gi;
       data.forEach((item) => {
-        const linkFind = item.fileContent.toString().match(regExp); //compara los archivos que estamos buscando con los simbolos en la expresion
+        const linkFind = item.fileContent.match(regExp); //compara los archivos que estamos buscando con los simbolos en la expresion
         if (linkFind) {
           linkFind.forEach((elem) => {
             links.push(elem);
@@ -120,8 +123,10 @@ function createObjectWithvalidateUrl(data, options) {
           Broken: filterDataStats.length,
         };
         console.table(result);
+        return result
       } else {
-        console.log("Links desde promesa: ", data);
+        console.log("Links desde promesa:", data);
+        return data
       }
     })
     .catch((error) => console.log("❌ERROR", error));

@@ -5,8 +5,3 @@
     * [Array.prototype.reduce() - MDN](hps://developer.mozilla.org/es//Global_Objects/Array/Reduce)
 
 
-
-    if (fs.statSync(pathUser).isDirectory()) {
-      const directory = pathUser;
-      let contentDirectory = fs.readdirSync(directory); 
-      contentDirectory.forEach((elem) => {
