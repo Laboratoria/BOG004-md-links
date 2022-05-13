@@ -34,25 +34,26 @@ let arrayMdFiles = [];
 
 //Lectura de ruta
 const getMdFiles = (currentRoute) => new Promise((resolve, reject) => {
-    let joinRoute;
-    console.log('HOLAAA');
-    if (folderPath(currentRoute)) {
+        let joinRoute;
+        console.log('HOLAAA');
+        if (folderPath(currentRoute)) {
 
-        readFolder(currentRoute).forEach((elem) => {
-            joinRoute = path.join(currentRoute, elem);
-            getMdFiles(joinRoute);
-        });
-    } else {
-        if (extMdFile(currentRoute)) {
-            joinRoute = path.join(currentRoute);
-            console.log('JOINROUTE', joinRoute);
-            arrayMdFiles.push(joinRoute);
+            readFolder(currentRoute).forEach((elem) => {
+                joinRoute = path.join(currentRoute, elem);
+                getMdFiles(joinRoute);
+            });
+        } else {
+            if (extMdFile(currentRoute)) {
+                joinRoute = path.join(currentRoute);
+                console.log('JOINROUTE', joinRoute);
+                arrayMdFiles.push(joinRoute);
+            }
         }
-    }
-    resolve(arrayMdFiles);
-}).then(() => {
-    console.log('ARRAYMDFILES', arrayMdFiles);
-})
+        resolve(arrayMdFiles);
+    })
+    /*.then(() => {
+        console.log('ARRAYMDFILES', arrayMdFiles);
+    })*/
 
 // console.log(getMdFiles(route));
 
@@ -141,9 +142,24 @@ const getObjetsLinks = () =>
         );
     });
 
-getObjetsLinks(route)
-    .then((response) => console.log("RESPONDE", response))
-    .catch((error) => console.log("NO RESPONDE", error));
+//Función que retorna el total de links y de links único
+const totalAndUnique = (arraylinks) => {
+    const totalLinks = arraylinks.length;
+    const uniqueLinks = new Set(arraylinks.map((element) => element.href)); // crear una colección de links únicos(no se repiten);
+    const stats = `{('Total :')} ${(totalLinks)}\n${('Unique :')} ${(uniqueLinks.size)}`;
+    return stats;
+}
+
+//Función que verifica si hay algun link roto
+const broken = (arraylinks) => {
+        const broken = arraylinks.filter(elem => elem.message === 'Fail')
+        const stats = `${('Broken :')} ${(broken.length)}`;
+        return stats;
+    }
+    /*
+    getObjetsLinks(route)
+        .then((response) => console.log("RESPONDE", response))
+        .catch((error) => console.log("NO RESPONDE", error));*/
 
 
 module.exports = {
@@ -151,4 +167,9 @@ module.exports = {
     readMdFiles,
     getLinksMdFiles,
     getObjetsLinks,
+    absolutePath,
+    extMdFile,
+    convertPath,
+    totalAndUnique,
+    broken,
 };

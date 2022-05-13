@@ -3,38 +3,45 @@ const {
     readMdFiles,
     getLinksMdFiles,
     getObjetsLinks,
+    absolutePath,
+    extMdFile,
+    convertPath,
+    totalAndUnique,
+    broken,
 } = require("./functions.js");
 
-
 const mdLinks = (path, option) => {
+
     return new Promise((resolve, reject) => {
-        //Ingresa path
         //Función para convertir la ruta en absoluta
-        const absoluteRoute = absolutePath(path);
-        //Función que evalua si la ruta es un archivo .md
-        extMdFile(absoluteRoute);
+        const convertedRoute = convertPath(path)
+            //Función que evalua si la ruta es un archivo .md
+        extMdFile(convertedRoute);
         //Función que lee el archivo y valida opciones
-        getMdFiles(absoluteRoute)
+        getObjetsLinks(convertedRoute)
             .then((res) => {
-                if ((option.validate !== true) && (options.stats !== true)) {
+                // console.log('RES1', res)
+                if ((option.validate !== true) && (option.stats !== true)) {
                     return (res);
                 } else if ((option.validate === true) && (option.stats === true)) {
                     return (Promise.all(res.map((e) => getObjetsLinks(e))));
                 } else if (option.stats === true) {
-                    return (linkStats(res));
+                    return (totalAndUnique(res));
                 } else {
                     return (Promise.all(res.map((e) => getObjetsLinks(e))));
                 }
             })
             .then((res) => {
+                // console.log('RES2', res)
+                console.log('ENTRA AQUI?');
                 if ((option.validate !== true) && (option.stats !== true)) {
-                    resolve(res.map((e) => `${e.file} ${e.href} ${e.test}\n`).join(''));
+                    resolve(res.map((e) => `${e.href} ${e.text} ${e.file}\n`).join(''));
                 } else if ((option.validate === true) && (option.stats === true)) {
-                    resolve(validateAndStats(res, linkStats(res)));
+                    resolve(broken(res, totalAndUnique(res)));
                 } else if (option.stats === true) {
                     resolve(`Total: ${res.total}\nUnique: ${res.unique}`);
                 } else {
-                    resolve(res.map((e) => `${e.file} ${e.href} ${e.statusCode} ${e.status} ${e.text}\n`).join(''));
+                    resolve(res.map((e) => `${e.href} ${e.text} ${e.file} ${e.status} ${e.message}\n`).join(''));
                 }
             })
             .catch((error) => {
@@ -43,6 +50,12 @@ const mdLinks = (path, option) => {
             });
     });
 };
+
+
+mdLinks(process.argv[2], { validate: process.argv[3], stats: process.argv[4] })
+    .then(resp => console.log(resp))
+    .catch(err => console.log(err))
+
 
 module.exports = {
     mdLinks,

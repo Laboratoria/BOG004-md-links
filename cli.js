@@ -2,13 +2,7 @@
 
 const mdLinks = require('./index.js')
 
-
-const listLinks = function(links) {
-    links.forEach(link => console.log(link));
-}
-
 const readOptions = (option) => {
-    const { links } = markdownLinkExtractor(result);
     switch (process.argv[3]) {
         case '--validate' || '--v':
             option = { validate: true, stats: true }
