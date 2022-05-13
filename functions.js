@@ -22,7 +22,7 @@ const convertPath = (route) =>
 const folderPath = (route) => fs.statSync(route).isDirectory();
 
 //Iterrar directorio
-const readFolder = (route) => fs.readdirSync(route, "utf-8");
+const readDirectory = (route) => fs.readdirSync(route, "utf-8");
 
 //Valida si hay archivos con extensión .md
 const extMdFile = (route) => path.extname(route) === ".md";
@@ -34,26 +34,23 @@ let arrayMdFiles = [];
 
 //Lectura de ruta
 const getMdFiles = (currentRoute) => new Promise((resolve, reject) => {
-        let joinRoute;
-        console.log('HOLAAA');
-        if (folderPath(currentRoute)) {
 
-            readFolder(currentRoute).forEach((elem) => {
-                joinRoute = path.join(currentRoute, elem);
+        if (folderPath(currentRoute)) { //Si es directorio entra aquí
+
+            Promise.all(readDirectory(currentRoute).map(elem => new Promise((resolve, reject) => {
+                let joinRoute = path.join(currentRoute, elem);
                 getMdFiles(joinRoute);
-            });
-        } else {
+            })))
+        } else { //Si no es directorio, es archivo y entra acá
             if (extMdFile(currentRoute)) {
-                joinRoute = path.join(currentRoute);
-                console.log('JOINROUTE', joinRoute);
-                arrayMdFiles.push(joinRoute);
+                arrayMdFiles.push(currentRoute);
             }
         }
         resolve(arrayMdFiles);
     })
-    /*.then(() => {
-        console.log('ARRAYMDFILES', arrayMdFiles);
-    })*/
+    // .then(() => {
+    //     console.log('ARRAYMDFILES', arrayMdFiles);
+    // })
 
 // console.log(getMdFiles(route));
 
@@ -120,7 +117,7 @@ const getObjetsLinks = () =>
                     .get(object.href)
                     .then((result) => {
                         const objStatus =
-                            result.status >= 200 && result.ststus <= 399 ? "Ok" : "Fail";
+                            result.status >= 200 && result.status <= 399 ? "Ok" : "Fail";
                         return {
                             href: object.href,
                             text: object.text,
@@ -152,14 +149,14 @@ const totalAndUnique = (arraylinks) => {
 
 //Función que verifica si hay algun link roto
 const broken = (arraylinks) => {
-        const broken = arraylinks.filter(elem => elem.message === 'Fail')
-        const stats = `${('Broken :')} ${(broken.length)}`;
-        return stats;
-    }
-    /*
-    getObjetsLinks(route)
-        .then((response) => console.log("RESPONDE", response))
-        .catch((error) => console.log("NO RESPONDE", error));*/
+    const broken = arraylinks.filter(elem => elem.message === 'Fail')
+    const stats = `${('Broken :')} ${(broken.length)}`;
+    return stats;
+}
+
+// getObjetsLinks(route)
+//     .then((response) => console.log("RESPONDE", response))
+//     .catch((error) => console.log("NO RESPONDE", error));
 
 
 module.exports = {

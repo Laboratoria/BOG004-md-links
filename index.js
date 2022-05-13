@@ -1,34 +1,32 @@
 const {
     getMdFiles,
-    readMdFiles,
-    getLinksMdFiles,
     getObjetsLinks,
-    absolutePath,
-    extMdFile,
     convertPath,
     totalAndUnique,
     broken,
 } = require("./functions.js");
 
 const mdLinks = (path, option) => {
-
+    console.log('OPTIOOONS', option) //validar que recibo objeto con estructura desarrollada en cli js con validate y stats);
     return new Promise((resolve, reject) => {
         //Función para convertir la ruta en absoluta
         const convertedRoute = convertPath(path)
             //Función que evalua si la ruta es un archivo .md
-        extMdFile(convertedRoute);
+        getMdFiles(convertedRoute).then((listLinks) => {
+            console.log('GETMDFILES PASA POR AQUI?', listLinks);
+        });
         //Función que lee el archivo y valida opciones
         getObjetsLinks(convertedRoute)
-            .then((res) => {
+            .then((result) => {
                 // console.log('RES1', res)
                 if ((option.validate !== true) && (option.stats !== true)) {
-                    return (res);
+                    return (result);
                 } else if ((option.validate === true) && (option.stats === true)) {
-                    return (Promise.all(res.map((e) => getObjetsLinks(e))));
+                    return (Promise.all(result.map((e) => getObjetsLinks(e))));
                 } else if (option.stats === true) {
-                    return (totalAndUnique(res));
+                    return (totalAndUnique(result));
                 } else {
-                    return (Promise.all(res.map((e) => getObjetsLinks(e))));
+                    return (Promise.all(result.map((e) => getObjetsLinks(e))));
                 }
             })
             .then((res) => {

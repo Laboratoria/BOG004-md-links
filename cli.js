@@ -1,25 +1,28 @@
 #!/usr/bin/env node
 
 const mdLinks = require('./index.js')
+const argv = process.argv;
+
 
 const readOptions = (option) => {
-    switch (process.argv[3]) {
-        case '--validate' || '--v':
-            option = { validate: true, stats: true }
-            break;
-        case '--stats' || '--s':
-            option = { stats: true }
-            break;
-        case '--stats' || '--s' && '--validate' || '--v':
-            option = { validate: true }
-            break;
-        default:
-            listLinks(links);
-            break;
+    const option = { validate: false, stats: false };
+    if (argv[3] === '--validate' && argv[4] === '--stats') {
+        option.validate === true && option.stats === true
+    } else if (argv[3] === '--validate') {
+        option.validate === true
+    } else if (argv[3] === '--stats') {
+        option.stats === true
+    } else {
+        option = {};
     }
-};
+    return option
+}
 
-mdLinks(process.argv[2], readOptions(process))
+//validar que los argv incluyan --validate o --stats
+//si incluye validate hacer option.validate === true
+//si incluye validate hacer option.stats === true
+
+mdLinks(process.argv[2], readOptions(process)) // pasar options en vez de readOptions
     .then((res) => {
         console.log(res);
     })
