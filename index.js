@@ -24,9 +24,8 @@ function mdLinks(path = " ", options = { validate: false, stats: false }) {
       .then(() => {
         if (options.validate) {
           resolve(
-            createObjectWithvalidateUrl(response.data, options).then(
-              (data) => data)
-          );
+            createObjectWithvalidateUrl(response.data, options)
+            .then((data) => data));
         } else if (options.stats) {
           resolve(objectOfStats(response.data));
         } else {
