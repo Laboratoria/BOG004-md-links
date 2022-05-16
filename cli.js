@@ -5,7 +5,6 @@ const argv = process.argv;
 
 
 const readOptions = (option) => {
-    // console.log('OPTIONNNNN QUE PASA AQUI?', option);
     let options = { validate: false, stats: false };
     if (option.length > 3) {
         if (option[3] === '--validate' && option[4] === '--stats' || option[3] === '--stats' && option[4] === '--validate') {

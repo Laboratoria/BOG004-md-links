@@ -59,8 +59,7 @@ const readMdFiles = (MDfile) => {
     return new Promise((resolve, reject) => {
         fs.readFile(MDfile, "utf-8", (err, data) => {
             if (err) {
-                const errorMsj = "Can't read file";
-                reject(errorMsj);
+                reject(err);
                 // console.log(clc.red('Could not read the file'));
             } else {
                 resolve({

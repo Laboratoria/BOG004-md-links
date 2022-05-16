@@ -17,19 +17,7 @@ const mdLinks = (path, option) => {
             // console.log('GETMDFILES PASA POR AQUI?', listLinks);
         });
         //Función que lee el archivo y valida opciones
-        getLinksMdFiles(convertedRoute)
-            // .then((result) => {
-            //     if ((option.validate !== true) && (option.stats !== true)) {
-            //         console.log('RESult1', result)
-            //         return (result);
-            //     } else if ((option.validate === true) && (option.stats === true)) {
-            //         return (Promise.all(result.map((e) => getObjetsLinks(e))));
-            //     } else if (option.stats === true) {
-            //         return (totalAndUnique(result));
-            //     } else {
-            //         return (Promise.all(result.map((e) => getObjetsLinks(e))));
-            //     }
-            // })
+        getObjetsLinks(convertedRoute)
             .then((res) => {
                 // console.log('ENTRA AQUI?');
                 if ((option.validate !== true) && (option.stats !== true)) {
@@ -40,35 +28,16 @@ const mdLinks = (path, option) => {
                     resolve(totalAndUnique(res));
                 } else {
                     Promise.all(res).then(e => {
-                        // console.log('eeeee', e);
                         resolve(getObjetsLinks(e))
                     });
-
-                    // resolve(res.map((e) => `${e.href} ${e.text} ${e.file} ${e.status} ${e.message}\n`).join(''));
                 }
             })
             .catch((error) => {
-                console.log(error);
-                reject('Execution Failed');
+                reject(error);
             });
     });
 };
 
-
-// mdLinks(process.argv[2], { validate: process.argv[3], stats: process.argv[4] })
-//     .then(resp => console.log(resp))
-//     .catch(err => console.log(err))
-
-
 module.exports = {
     mdLinks,
 };
-
-// mdLinks = (ruta, options) => {
-//     return new Promise((resolve, reject) => {
-//         // si options.validate === false
-//         // respondo con función que retorna { href, text, file}
-//         // si options.validate === true 
-//         // respondo con objectWithValidateLinks --> {jref, text, file, status, ok}
-//     })
-// }
