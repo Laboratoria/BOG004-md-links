@@ -1,5 +1,6 @@
 const {
     getMdFiles,
+    getLinksMdFiles,
     getObjetsLinks,
     convertPath,
     totalAndUnique,
@@ -7,39 +8,43 @@ const {
 } = require("./functions.js");
 
 const mdLinks = (path, option) => {
-    console.log('OPTIOOONS', option) //validar que recibo objeto con estructura desarrollada en cli js con validate y stats);
+    // console.log('OPTIOOONS', option) //validar que recibo objeto con estructura desarrollada en cli js con validate y stats);
     return new Promise((resolve, reject) => {
         //Función para convertir la ruta en absoluta
         const convertedRoute = convertPath(path)
             //Función que evalua si la ruta es un archivo .md
         getMdFiles(convertedRoute).then((listLinks) => {
-            console.log('GETMDFILES PASA POR AQUI?', listLinks);
+            // console.log('GETMDFILES PASA POR AQUI?', listLinks);
         });
         //Función que lee el archivo y valida opciones
-        getObjetsLinks(convertedRoute)
-            .then((result) => {
-                // console.log('RES1', res)
-                if ((option.validate !== true) && (option.stats !== true)) {
-                    return (result);
-                } else if ((option.validate === true) && (option.stats === true)) {
-                    return (Promise.all(result.map((e) => getObjetsLinks(e))));
-                } else if (option.stats === true) {
-                    return (totalAndUnique(result));
-                } else {
-                    return (Promise.all(result.map((e) => getObjetsLinks(e))));
-                }
-            })
+        getLinksMdFiles(convertedRoute)
+            // .then((result) => {
+            //     if ((option.validate !== true) && (option.stats !== true)) {
+            //         console.log('RESult1', result)
+            //         return (result);
+            //     } else if ((option.validate === true) && (option.stats === true)) {
+            //         return (Promise.all(result.map((e) => getObjetsLinks(e))));
+            //     } else if (option.stats === true) {
+            //         return (totalAndUnique(result));
+            //     } else {
+            //         return (Promise.all(result.map((e) => getObjetsLinks(e))));
+            //     }
+            // })
             .then((res) => {
-                // console.log('RES2', res)
-                console.log('ENTRA AQUI?');
+                // console.log('ENTRA AQUI?');
                 if ((option.validate !== true) && (option.stats !== true)) {
                     resolve(res.map((e) => `${e.href} ${e.text} ${e.file}\n`).join(''));
                 } else if ((option.validate === true) && (option.stats === true)) {
-                    resolve(broken(res, totalAndUnique(res)));
+                    resolve(totalAndUnique(res) + broken(res));
                 } else if (option.stats === true) {
-                    resolve(`Total: ${res.total}\nUnique: ${res.unique}`);
+                    resolve(totalAndUnique(res));
                 } else {
-                    resolve(res.map((e) => `${e.href} ${e.text} ${e.file} ${e.status} ${e.message}\n`).join(''));
+                    Promise.all(res).then(e => {
+                        // console.log('eeeee', e);
+                        resolve(getObjetsLinks(e))
+                    });
+
+                    // resolve(res.map((e) => `${e.href} ${e.text} ${e.file} ${e.status} ${e.message}\n`).join(''));
                 }
             })
             .catch((error) => {
@@ -50,9 +55,9 @@ const mdLinks = (path, option) => {
 };
 
 
-mdLinks(process.argv[2], { validate: process.argv[3], stats: process.argv[4] })
-    .then(resp => console.log(resp))
-    .catch(err => console.log(err))
+// mdLinks(process.argv[2], { validate: process.argv[3], stats: process.argv[4] })
+//     .then(resp => console.log(resp))
+//     .catch(err => console.log(err))
 
 
 module.exports = {

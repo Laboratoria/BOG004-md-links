@@ -96,7 +96,7 @@ const getLinksMdFiles = (routeMDfile) =>
                     arrayLinksConvert.push({
                         href: objhref, //URL encontrada
                         text: objtext.substring(0, 50), //Texto que aparecía dentro del link (<a>).
-                        fileName: path.basename(routeMDfile), //Ruta del archivo donde se encontró el link.
+                        file: path.basename(routeMDfile), //Ruta del archivo donde se encontró el link.
                     });
                 });
                 resolve(arrayLinksConvert);
@@ -111,17 +111,17 @@ const getLinksMdFiles = (routeMDfile) =>
 
 const getObjetsLinks = () =>
     getLinksMdFiles(route).then((arrayLinksConvert) => {
+        // console.log('arrayLinksConvert', arrayLinksConvert);
         return Promise.all(
             arrayLinksConvert.map((object) => {
                 return axios
                     .get(object.href)
                     .then((result) => {
-                        const objStatus =
-                            result.status >= 200 && result.status <= 399 ? "Ok" : "Fail";
+                        // result.status >= 200 && result.status <= 399 ? "Ok" : "Fail";
                         return {
                             href: object.href,
                             text: object.text,
-                            file: object.fileName,
+                            file: object.file,
                             status: result.status,
                             message: "Ok",
                         };
@@ -130,8 +130,8 @@ const getObjetsLinks = () =>
                         return {
                             href: object.href,
                             text: object.text,
-                            file: object.fileName,
-                            status: "",
+                            file: object.file,
+                            status: 404,
                             message: "Fail",
                         };
                     });
@@ -143,14 +143,14 @@ const getObjetsLinks = () =>
 const totalAndUnique = (arraylinks) => {
     const totalLinks = arraylinks.length;
     const uniqueLinks = new Set(arraylinks.map((element) => element.href)); // crear una colección de links únicos(no se repiten);
-    const stats = `{('Total :')} ${(totalLinks)}\n${('Unique :')} ${(uniqueLinks.size)}`;
+    const stats = `${('Total :')} ${(totalLinks)}\n${('Unique :')} ${(uniqueLinks.size)}\n`;
     return stats;
 }
 
 //Función que verifica si hay algun link roto
 const broken = (arraylinks) => {
     const broken = arraylinks.filter(elem => elem.message === 'Fail')
-    const stats = `${('Broken :')} ${(broken.length)}`;
+    const stats = `${('Broken :')} ${(broken.length)}\n`;
     return stats;
 }
 
