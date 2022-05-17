@@ -25,9 +25,7 @@
         "npm"
     ],
     "scripts": {
-        "test": "jest --coverage --verbose",
-        "eslint": "eslint --ext .js src/ test/",
-        "pretest": "npm run eslint"
+        "test": "jest --coverage --verbose"
     },
     "dependencies": {
         "axios": "^0.27.1",
