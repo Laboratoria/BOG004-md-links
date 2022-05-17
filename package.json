@@ -1,7 +1,37 @@
 {
-  "name": "md-links",
-  "version": "0.1.0",
-  "engines": {
-    "node": ">=14.x"
-  }
+    "name": "md-links",
+    "version": "0.1.0",
+    "description": "Módulo para validar links de archivos Markdown.",
+    "main": "./index.js",
+    "bin": {
+        "md-links": "./cli.js"
+    },
+    "engines": {
+        "node": ">=14.x"
+    },
+    "author": {
+        "name": "Yulimar Duque",
+        "email": "yduquedealba@gmail.com",
+        "url": "https://www.linkedin.com/in/yulimarduque/"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/yuliduquedealba/md-links"
+    },
+    "keywords": [
+        "md-Links",
+        "Markdown",
+        "links",
+        "npm"
+    ],
+    "scripts": {
+        "test": "jest --coverage --verbose"
+    },
+    "dependencies": {
+        "axios": "^0.27.1",
+        "cli-color": "^2.0.2",
+        "jest": "^28.1.0",
+        "markdown-it": "^13.0.0",
+        "markdown-link-extractor": "^2.0.1"
+    }
 }
