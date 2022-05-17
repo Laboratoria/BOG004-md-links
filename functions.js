@@ -39,7 +39,7 @@ const getMdFiles = (currentRoute) => new Promise((resolve, reject) => {
 
             Promise.all(readDirectory(currentRoute).map(elem => new Promise((resolve, reject) => {
                 let joinRoute = path.join(currentRoute, elem);
-                getMdFiles(joinRoute);
+                getMdFiles(joinRoute); // Aplica recursividad
             })))
         } else { //Si no es directorio, es archivo y entra acá
             if (extMdFile(currentRoute)) {
