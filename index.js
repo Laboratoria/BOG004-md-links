@@ -21,7 +21,7 @@ const mdLinks = (path, option) => {
             .then((res) => {
                 // console.log('ENTRA AQUI?');
                 if ((option.validate !== true) && (option.stats !== true)) {
-                    resolve(res.map((e) => `${e.href} ${e.text} ${e.file}\n`).join(''));
+                    resolve(res.map((e) => `${e.href} ${e.text} ${e.file} ${e.status} ${e.message}\n`).join(''));
                 } else if ((option.validate === true) && (option.stats === true)) {
                     resolve(totalAndUnique(res) + broken(res));
                 } else if (option.stats === true) {
