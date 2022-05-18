@@ -21,14 +21,15 @@ const mdLinks = (path, option) => {
             .then((res) => {
                 // console.log('ENTRA AQUI?');
                 if ((option.validate !== true) && (option.stats !== true)) {
-                    resolve(clc.yellow(res.map((e) => `${e.href} ${e.text} ${e.file} ${e.status} ${e.message}\n`).join('')));
+                    resolve(clc.yellow(res.map((e) => `${e.file} ${e.href} ${e.text}\n`).join('')));
                 } else if ((option.validate === true) && (option.stats === true)) {
                     resolve(clc.yellow(totalAndUnique(res) + broken(res)));
                 } else if (option.stats === true) {
                     resolve(clc.yellow(totalAndUnique(res)));
                 } else {
                     Promise.all(res).then(e => {
-                        resolve(getObjetsLinks(e))
+                        resolve(clc.yellow(res.map((e) => `${e.file} ${e.href} ${e.message} ${e.status} ${e.text}\n`).join('')));
+                        // resolve(getObjetsLinks(e))
                     });
                 }
             })

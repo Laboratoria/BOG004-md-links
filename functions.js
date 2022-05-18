@@ -104,7 +104,7 @@ const getLinksMdFiles = (routeMDfile) =>
 
 // getLinksMdFiles(route).then(response => console.log('SE LEYÓ', response)).catch(err => console.error('NO SE LEYÓ'));
 
-const getObjetsLinks = () =>
+const getObjetsLinks = (route) =>
     getLinksMdFiles(route).then((arrayLinksConvert) => {
         // console.log('arrayLinksConvert', arrayLinksConvert);
         return Promise.all(
