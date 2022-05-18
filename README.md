@@ -5,7 +5,7 @@
 * [1. md-links](#1-md-links)
 * [2. Installation](#2-installation)
 * [3. User guide](#3-user-guide)
-* [4. Flowchart](#4-Flowchart)
+* [4. Flowchart](#4-flowchart)
 * [5. Backlog](#5-backlog)
 * [6. Author](#6-author)
 
@@ -55,7 +55,7 @@ With MD-LINKS you will be able to read files that contain _links_ (links/links),
   
 </p></details>
 
-* ## 5. Backlog 📝
+## 5. Backlog 📝
 
 El [backlog](https://github.com/yuliduquedealba/md-links/projects/1) fue implementado con Github Projets
 
