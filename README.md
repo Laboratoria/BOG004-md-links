@@ -8,9 +8,7 @@
 * [4. Flowchart](#4-Flowchart)
 * [5. Backlog](#5-backlog)
 * [6. Author](#6-author)
-* [7. Fuentes](#7-fuentes)
 
-***
 
 ## 1. MD-LINKS
 
@@ -34,32 +32,31 @@ With MD-LINKS you will be able to read files that contain _links_ (links/links),
 
 `md-links <path-to-file>`
 
-![Object with links](img/mdLinks-route.png){width=100%}
-
+![Object with links](img/mdLinks-route.png)
 `md-links <path-to-file> --validate`
 
-![Option --validate](img/mdLinks-route-v.png){width=100%}
+![Option --validate](img/mdLinks-route-v.png)
 
 `md-links <path-to-file> --stats`
 
-![Option --stats](img/mdLinks-route-s.png){width=100%}
+![Option --stats](img/mdLinks-route-s.png)
 
 `md-links <path-to-file> --validate --stats o --stats --validate`
 
-![Option --validate and --stats](img/mdLinks-route-v-s.png){width=100%}
+![Option --validate and --stats](img/mdLinks-route-v-s.png)
 
 
 ## 4. Flowchart
 
   <details><summary>Watch</summary><p>
 
-  * [Flowchart](https://curriculum.laboratoria.la/es/topics/javascript/04-arrays)
+![Flowchart](img/Diagrama%20de%20flujo.png)
   
 </p></details>
 
 ## 5. Backlog
 
-El [backlog](img/Diagrama%20de%20flujo.png) fue implementado con Github Projets
+El [backlog](https://github.com/yuliduquedealba/md-links/projects/1) fue implementado con Github Projets
 
 ## 6. Author
 
