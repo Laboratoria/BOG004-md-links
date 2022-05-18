@@ -2,7 +2,7 @@
 
 const mdLinks = require('./index.js')
 const argv = process.argv;
-
+var clc = require('cli-color');
 
 const readOptions = (option) => {
     let options = { validate: false, stats: false };
@@ -34,5 +34,5 @@ mdLinks.mdLinks(argv[2], readOptions(argv))
         console.log(res);
     })
     .catch((error) => {
-        console.log(error);
+        console.log(clc.red('Ruta no valida'));
     });
