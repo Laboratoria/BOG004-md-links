@@ -2,13 +2,9 @@ const path = require("path");
 const fs = require("fs");
 const clc = require("cli-color");
 const { default: axios } = require("axios");
-// const { options } = require("markdown-it/lib/presets/default");
-// const { url } = require("inspector");
 const [, , route] = process.argv;
 
-// const md = ('markdown-it');
-
-// //Valida si la ruta existe
+// Valida si la ruta existe
 // const existsPath = (route) => fs.existsSync(route);
 
 //Valida si la es ruta es absoluta
@@ -40,7 +36,7 @@ const getMdFiles = (currentRoute) => new Promise((resolve, reject) => {
             Promise.all(readDirectory(currentRoute).map(elem => new Promise((resolve, reject) => {
                 let joinRoute = path.join(currentRoute, elem);
                 getMdFiles(joinRoute); // Aplica recursividad
-            })))
+            })));
         } else { //Si no es directorio, es archivo y entra acá
             if (extMdFile(currentRoute)) {
                 arrayMdFiles.push(currentRoute);
