@@ -3,36 +3,41 @@
 const mdLinks = require('./index.js')
 const argv = process.argv;
 var clc = require('cli-color');
+const {
+    totalAndUnique,
+    broken,
+} = require("./functions.js");
 
-const readOptions = (option) => {
-    let options = { validate: false, stats: false };
-    if (option.length > 3) {
-        if (option[3] === '--validate' && option[4] === '--stats' || option[3] === '--stats' && option[4] === '--validate') {
-            options.validate = true;
-            options.stats = true;
-        } else if (option[3] === '--validate') {
-            options.validate = true;
-        } else if (option[3] === '--stats') {
-            options.stats = true;
+const readOptions = () => {
+    let options = { validate: false };
+    if (argv.length > 3) {
+        if (argv.includes('--validate') || argv.includes('--v')) {
+            options.validate = true
         } else {
             options = {};
         }
     }
-    // console.log('SOY EL OBJ', options);
     return options
 }
 
-//validar que los argv incluyan --validate o --stats
-//si incluye validate hacer option.validate === true
-//si incluye validate hacer option.stats === true
 
-// console.log('MDLINKKKKK CLI', mdLinks.mdLinks);
-// readOptions(argv);
-
-mdLinks.mdLinks(argv[2], readOptions(argv))
+mdLinks.mdLinks(argv[2], readOptions())
     .then((res) => {
-        console.log(res);
+        if (argv.includes('--stats') || argv.includes('--s')) {
+            console.table(totalAndUnique(res));
+            if ((argv.includes('--validate') || argv.includes('--v'))) {
+                console.table(broken(res));
+            }
+        } else if (argv.includes('--validate')) {
+            res.forEach(e => {
+                console.log((`${e.file} ${e.href} ${e.message} ${e.status} ${e.text}\n`));
+            })
+        } else {
+            res.forEach(e => {
+                console.log((`${e.file} ${e.href} ${e.text}\n`));
+            })
+        }
     })
     .catch((error) => {
-        console.log(clc.red('Ruta no valida'));
+        console.log(clc.red('Ruta no valida', error));
     });
