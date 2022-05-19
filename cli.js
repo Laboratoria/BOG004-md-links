@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const mdLinks = require('./index.js')
+const { getObjetsLinks, convertPath } = require('./functions')
 const argv = process.argv;
 var clc = require('cli-color');
 
@@ -18,20 +19,23 @@ const readOptions = (option) => {
             options = {};
         }
     }
-    // console.log('SOY EL OBJ', options);
     return options
 }
 
-//validar que los argv incluyan --validate o --stats
-//si incluye validate hacer option.validate === true
-//si incluye validate hacer option.stats === true
-
-// console.log('MDLINKKKKK CLI', mdLinks.mdLinks);
-// readOptions(argv);
 
 mdLinks.mdLinks(argv[2], readOptions(argv))
     .then((res) => {
-        console.log(res);
+        if ((option.validate !== true) && (option.stats !== true)) {
+            resolve(clc.yellow(res.map((e) => `${e.file} ${e.href} ${e.text}\n`).join('')));
+        } else if ((option.validate === true) && (option.stats === true)) {
+            resolve(clc.yellow(totalAndUnique(res) + broken(res)));
+        } else if (option.stats === true) {
+            resolve(clc.yellow(totalAndUnique(res)));
+        } else {
+            Promise.all(res).then(e => {
+                resolve(clc.yellow(res.map((e) => `${e.file} ${e.href} ${e.message} ${e.status} ${e.text}\n`).join('')));
+            });
+        }
     })
     .catch((error) => {
         console.log(clc.red('Ruta no valida'));

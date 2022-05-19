@@ -15,21 +15,17 @@ const mdLinks = (path, option) => {
         const convertedRoute = convertPath(path)
             //Función que evalua si la ruta es un archivo .md
         getMdFiles(convertedRoute)
-            // console.log('mdFiles', mdFiles);
             //Función que lee el archivo y valida opciones
         getObjetsLinks(convertedRoute)
             .then((res) => {
                 // console.log('ENTRA AQUI?');
-                if ((option.validate !== true) && (option.stats !== true)) {
-                    resolve(clc.yellow(res.map((e) => `${e.file} ${e.href} ${e.text}\n`).join('')));
-                } else if ((option.validate === true) && (option.stats === true)) {
-                    resolve(clc.yellow(totalAndUnique(res) + broken(res)));
-                } else if (option.stats === true) {
-                    resolve(clc.yellow(totalAndUnique(res)));
+                if (option.validate !== true) {
+                    Promise.all(res).then(e => {
+                        resolve(getLinksMdFiles(e));
+                    });
                 } else {
                     Promise.all(res).then(e => {
-                        resolve(clc.yellow(res.map((e) => `${e.file} ${e.href} ${e.message} ${e.status} ${e.text}\n`).join('')));
-                        // resolve(getObjetsLinks(e))
+                        resolve(getObjetsLinks(e))
                     });
                 }
             })
