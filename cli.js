@@ -1,20 +1,18 @@
 #!/usr/bin/env node
 
 const mdLinks = require('./index.js')
-const { getObjetsLinks, convertPath } = require('./functions')
 const argv = process.argv;
 var clc = require('cli-color');
+const {
+    totalAndUnique,
+    broken,
+} = require("./functions.js");
 
-const readOptions = (option) => {
-    let options = { validate: false, stats: false };
-    if (option.length > 3) {
-        if (option[3] === '--validate' && option[4] === '--stats' || option[3] === '--stats' && option[4] === '--validate') {
-            options.validate = true;
-            options.stats = true;
-        } else if (option[3] === '--validate') {
-            options.validate = true;
-        } else if (option[3] === '--stats') {
-            options.stats = true;
+const readOptions = () => {
+    let options = { validate: false };
+    if (argv.length > 3) {
+        if (argv.includes('--validate') || argv.includes('--v')) {
+            options.validate = true
         } else {
             options = {};
         }
@@ -23,20 +21,23 @@ const readOptions = (option) => {
 }
 
 
-mdLinks.mdLinks(argv[2], readOptions(argv))
+mdLinks.mdLinks(argv[2], readOptions())
     .then((res) => {
-        if ((option.validate !== true) && (option.stats !== true)) {
-            resolve(clc.yellow(res.map((e) => `${e.file} ${e.href} ${e.text}\n`).join('')));
-        } else if ((option.validate === true) && (option.stats === true)) {
-            resolve(clc.yellow(totalAndUnique(res) + broken(res)));
-        } else if (option.stats === true) {
-            resolve(clc.yellow(totalAndUnique(res)));
+        if (argv.includes('--stats') || argv.includes('--s')) {
+            console.table(totalAndUnique(res));
+            if ((argv.includes('--validate') || argv.includes('--v'))) {
+                console.table(broken(res));
+            }
+        } else if (argv.includes('--validate')) {
+            res.forEach(e => {
+                console.log((`${e.file} ${e.href} ${e.message} ${e.status} ${e.text}\n`));
+            })
         } else {
-            Promise.all(res).then(e => {
-                resolve(clc.yellow(res.map((e) => `${e.file} ${e.href} ${e.message} ${e.status} ${e.text}\n`).join('')));
-            });
+            res.forEach(e => {
+                console.log((`${e.file} ${e.href} ${e.text}\n`));
+            })
         }
     })
     .catch((error) => {
-        console.log(clc.red('Ruta no valida'));
+        console.log(clc.red('Ruta no valida', error));
     });

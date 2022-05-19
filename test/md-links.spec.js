@@ -7,20 +7,12 @@ const invalidRoute = 'test\\test-folder\\test-file1.md';
 const fileWithoutLinks = 'test//test-folder//anotherFiles1.md//hola.md';
 
 const arrayLinksValidated = [{
-        href: 'https://www.google.com.co/',
-        text: 'Este es un link',
-        file: 'test-file.md',
-        status: 200,
-        message: 'Ok'
-    }
-    // {
-    //     href: "https://www.googlee.com.coo/",
-    //     text: "Guugle",
-    //     file: "C://Users//yduqu//OneDrive//Escritorio//Laboratoria//md-links//test//test-folder//test-file1.md",
-    //     status: 404,
-    //     ok: "fail",
-    // },
-];
+    href: 'https://www.google.com.co/',
+    text: 'Este es un link',
+    file: 'test-file.md',
+    status: 200,
+    message: 'Ok'
+}];
 
 
 describe('mdLinks', () => {

@@ -3,10 +3,7 @@ const {
     getLinksMdFiles,
     getObjetsLinks,
     convertPath,
-    totalAndUnique,
-    broken,
 } = require("./functions.js");
-var clc = require('cli-color');
 
 const mdLinks = (path, option) => {
     // console.log('OPTIOOONS', option) //validar que recibo objeto con estructura desarrollada en cli js con validate y stats);
@@ -20,13 +17,9 @@ const mdLinks = (path, option) => {
             .then((res) => {
                 // console.log('ENTRA AQUI?');
                 if (option.validate !== true) {
-                    Promise.all(res).then(e => {
-                        resolve(getLinksMdFiles(e));
-                    });
+                    resolve(getLinksMdFiles(convertedRoute));
                 } else {
-                    Promise.all(res).then(e => {
-                        resolve(getObjetsLinks(e))
-                    });
+                    resolve(getObjetsLinks(convertedRoute))
                 }
             })
             .catch((error) => {
