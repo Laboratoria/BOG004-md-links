@@ -28,7 +28,7 @@ mdLinks.mdLinks(argv[2], readOptions())
             if ((argv.includes('--validate') || argv.includes('--v'))) {
                 console.table(broken(res));
             }
-        } else if (argv.includes('--validate')) {
+        } else if (argv.includes('--validate') || argv.includes('--v')) {
             res.forEach(e => {
                 console.log((`${e.file} ${e.href} ${e.message} ${e.status} ${e.text}\n`));
             })

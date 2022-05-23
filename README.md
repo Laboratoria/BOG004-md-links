@@ -24,34 +24,48 @@ With MD-LINKS you will be able to read files that contain _links_ (links/links),
 
 ## 3. User guide 💻
 
-**Library:**
+**API:**
 
 `const { mdLinks } = require('md-links');`
+
+***Si deseas validar los links encontrados en tus archivos `.md` puedes usar la propiedad { validate:true } de la siguiente manera:***
+![api](./img/api-v-true.png)
+
+***Valor de retorno:***
+![validate true cli](./img/api-v-true-cli.png)
+
+
+***Si sólo deseas ver los links encontrados en tus archivos `.md` puedes usar la propiedad { validate:false } de la siguiente manera:***
+![api](./img/api-v-false.png)
+
+***Valor de retorno:***
+![validate false cli](./img/api-v-false-cli.png)
+
 
 **CLI (Command Line Interface):**
 
 `md-links <path-to-file>`
 
-![Object with links](img/mdLinks-route.png)
+![Object with links](./img/mdLinks-route.png)
 
-`md-links <path-to-file> --validate`
+`md-links <path-to-file> --validate or --v`
 
-![Option --validate](img/mdLinks-route-v.png)
+![Option --validate](./img/mdLinks-route-v.png)
 
-`md-links <path-to-file> --stats`
+`md-links <path-to-file> --validate --stats or --v --s`
 
-![Option --stats](img/mdLinks-route-s.png)
+![Option --validate and --stats](./img/mdLinks-route-v-s.png)
 
-`md-links <path-to-file> --validate --stats o --stats --validate`
+`md-links <path-to-file> --stats or --s`
 
-![Option --validate and --stats](img/mdLinks-route-v-s.png)
+![Option --stats](./img/mdLinks-route-s.png)
 
 
 ## 4. Flowchart 🔁
 
   <details><summary>Watch</summary><p>
 
-![Flowchart](img/Diagrama%20de%20flujo.png)
+![Flowchart](./img/Diagrama%20de%20flujo.png)
   
 </p></details>
 
