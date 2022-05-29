@@ -24,20 +24,21 @@ const readOptions = () => {
 //Opciones CLI
 mdLinks.mdLinks(argv[2], readOptions())
     .then((res) => {
-        if (argv.includes('--stats') || argv.includes('--s')) {
-            console.table(totalAndUnique(res));
-            if ((argv.includes('--validate') || argv.includes('--v'))) {
-                console.table(broken(res));
-            }
-        } else if (argv.includes('--validate') || argv.includes('--v')) {
-            res.forEach(e => {
-                console.log((`${e.file} ${e.href} ${e.message} ${e.status} ${e.text}\n`));
-            })
-        } else {
-            res.forEach(e => {
-                console.log((`${e.file} ${e.href} ${e.text}\n`));
-            })
-        }
+        console.log('RESSSS', res);
+        // if (argv.includes('--stats') || argv.includes('--s')) {
+        //     console.table(totalAndUnique(res));
+        //     if ((argv.includes('--validate') || argv.includes('--v'))) {
+        //         console.table(broken(res));
+        //     }
+        // } else if (argv.includes('--validate') || argv.includes('--v')) {
+        //     res.forEach(e => {
+        //         console.log((`${e.file} ${e.href} ${e.message} ${e.status} ${e.text}\n`));
+        //     })
+        // } else {
+        //     res.forEach(e => {
+        //         console.log((`${e.file} ${e.href} ${e.text}\n`));
+        //     })
+        // }
     })
     .catch((error) => {
         console.log(clc.red('Ruta no valida', error));
