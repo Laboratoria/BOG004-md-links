@@ -13,6 +13,7 @@ const mdLinks = (path, option) => {
             //Función que evalua si la ruta es un archivo .md
         const arrFiles = getMdFiles(convertedRoute)
         console.log('ARRRRRFILES', arrFiles);
+        console.log('ARRRRRFILES length:::', arrFiles.length);
             //Función que lee el archivo y valida opciones
         getObjetsLinks(arrFiles)
         .then((res) => {
