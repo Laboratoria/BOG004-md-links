@@ -43,11 +43,11 @@ const getMdFiles = (currentRoute) => {
 
 //Lectura de archivo .md
 const readMdFiles = (MDfile) => {
-    console.log('MDFILE', MDfile);
+    // console.log('MDFILE', MDfile);
     return new Promise((resolve, reject) => {
         fs.readFile(MDfile, "utf-8", (err, data) => {
             if (err) {
-                console.log('EEEERR', err);
+                // console.log('EEEERR', err);
                 reject(err);
             } else {
                 resolve({
@@ -96,10 +96,10 @@ const getLinksMdFiles = (routeMDfile) =>
 const getObjetsLinks = (routes) => {
     const promises = routes.map(elem => {
         return getLinksMdFiles(elem).then((arrayLinksConvert) => {
-            console.log('arrayLinksConvert', arrayLinksConvert);
+            // console.log('arrayLinksConvert', arrayLinksConvert);
             return Promise.all(
                 arrayLinksConvert.map((object) => {
-                    console.log('OBJECT.HREF', object.href);
+                    // console.log('OBJECT.HREF', object.href);
                     return axios
                         .get(object.href)
                         .then((result) => {
