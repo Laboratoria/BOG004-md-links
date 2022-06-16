@@ -130,17 +130,25 @@ const getObjetsLinks = (routes) => {
 
 //Función que retorna el total de links y links únicos
 const totalAndUnique = (arraylinks) => {
-    const totalLinks = arraylinks.length;
-    const uniqueLinks = new Set(arraylinks.map((element) => element.href)); // crear una colección de links únicos(no se repiten);
-    const stats = `${('Total :')} ${(totalLinks)}\n${('Unique :')} ${(uniqueLinks.size)}\n`;
-    return stats;
+    let totalLinks = 0;
+    let uniqueLinks = [];
+    arraylinks.forEach(arr => {
+        totalLinks += arr.length;
+        uniqueLinks = uniqueLinks.concat(arr)
+    })
+    uniqueLinks = new Set(uniqueLinks.map((element) => element.href)); // crear una colección de links únicos(no se repiten);
+    const stats = `${('Total :')} ${(totalLinks)}\n${('Unique :')} ${(uniqueLinks.size)}`;
+    console.log(stats);
 }
 
 //Función que verifica si hay algun link roto
 const broken = (arraylinks) => {
-    const broken = arraylinks.filter(elem => elem.message === 'Fail')
-    const stats = `${('Broken :')} ${(broken.length)}\n`;
-    return stats;
+    let broken = [];
+    arraylinks.forEach(arr => {
+        broken = broken.concat(arr.filter(elem => elem.message === 'Fail'));
+    })
+    const stats = `${('Broken :')} ${(broken.length)}`;
+    console.log(stats);
 }
 
 // getObjetsLinks(route)
